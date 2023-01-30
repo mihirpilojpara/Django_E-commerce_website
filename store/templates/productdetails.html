@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load cart %}
+{% load custom_filter %}
+{% block content %}
+<section>
+   <div class="container mt-5 pt-5">
+        <div class="border rounded p-4 m-4 pt-4 mt-4">
+            <p class="display-4 pl-4 ml-4">Our Products</p>
+            <hr>
+            <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>product</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if products %}
+                        {% for product in products %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><img class="rounded-square" style="height:80px" src="{{product.image.url}}"></td>
+                            <td>{{product.name}}</td>
+                            <td>{{product.description}}</td>
+                            <td>{{product.price|currency}}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif%}
+                    </tbody>
+                </table>
+        </div>
+   </div>
+</section>
+<!--model create for check out-->
+{% endblock %}

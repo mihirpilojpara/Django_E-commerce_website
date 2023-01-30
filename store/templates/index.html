@@ -1,0 +1,112 @@
+{% extends 'base.html'%}
+{% load static%}
+{% load cart %}
+{% load custom_filter%}
+{% block content %}
+	<!-- start product Area -->
+	<section class="mt-5 pt-5">
+		<!-- single product slide -->
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-6 text-center">
+						<div class="section-title mt-5 pt-5">
+							<h1>Products</h1>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+								dolore
+								magna aliqua.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<!-- single product -->
+					{% for product in products %}
+					{% if product.id <= 20%}
+					<div class="card mx-auto mb-3" id="{{product.id}}" style="width: 18rem;">
+						<img class="card-img-top" src="{{product.image.url}}">
+						<div class="card-body">
+							<p class="card-title">{{product.name}}</p>
+							<p class="card-text"><b>{{product.price|currency}}</b></p>
+<!--							{{product | is_in_cart:request.session.cart}}-->
+						</div>
+						<div class="card-footer p-0">
+							{% if product|is_in_cart:request.session.cart %}
+							<div class="row  no-gutters">
+								<form action="/#{{product.id}}" class="col-2" method="post">
+									{% csrf_token %}
+									<input hidden type="text" name="product" value="{{product.id}}">
+									<input hidden type="text" name="remove" value="True">
+									<input type="submit" value="-" class=" btn btn-block btn-info">
+								</form>
+								<div class="text-center col m-2">{{product|cart_quantity:request.session.cart}} in Cart</div>
+								<form action="/#{{product.id}}" class="col-2" method="post">
+									{% csrf_token %}
+									<input hidden type="text" name="product" value="{{product.id}}">
+									<input type="submit" value="+" class=" btn btn-block btn-info">
+								</form>
+							</div>
+							{%else%}
+							<form action="/#{{product.id}}" method="post" class="btn-block">
+								{% csrf_token %}
+								<input hidden type="text" name="product" value="{{product.id}}">
+								<button type="submit" class="btn btn-info btn-block ">Add to cart  <span class="ti-bag "></span></button>
+							</form>
+							{% endif %}
+						</div>
+					</div>
+					{%endif%}
+					{% endfor %}
+				</div>
+			</div>
+
+
+	<!-- end product Area -->
+	<!-- start features Area -->
+
+		<div class="container">
+			<div class="row features-inner">
+				<!-- single features -->
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-features">
+						<div class="f-icon">
+							<img src="{% static 'store/img/features/f-icon1.png' %}" alt="">
+						</div>
+						<h6>Free Delivery</h6>
+						<p>Free Shipping on all order</p>
+					</div>
+				</div>
+				<!-- single features -->
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-features">
+						<div class="f-icon">
+							<img src="{% static 'store/img/features/f-icon2.png' %} " alt="">
+						</div>
+						<h6>Return Policy</h6>
+						<p>Free Shipping on all order</p>
+					</div>
+				</div>
+				<!-- single features -->
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-features">
+						<div class="f-icon">
+							<img src="{% static 'store/img/features/f-icon3.png' %}" alt="">
+						</div>
+						<h6>24/7 Support</h6>
+						<p>Free Shipping on all order</p>
+					</div>
+				</div>
+				<!-- single features -->
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="single-features">
+						<div class="f-icon">
+							<img src="{% static 'store/img/features/f-icon4.png' %}" alt="">
+						</div>
+						<h6>Secure Payment</h6>
+						<p>Free Shipping on all order</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- end features Area -->
+
+{% endblock %}

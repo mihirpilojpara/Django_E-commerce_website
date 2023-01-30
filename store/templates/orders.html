@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load cart %}
+{% load custom_filter %}
+{% block content %}
+<section>
+   <div class="container mt-5 pt-5">
+        <div class="border rounded p-4 m-4 pt-4 mt-4">
+            <p class="display-4 pl-4 ml-4">Your Shipping Cart</p>
+            <hr>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Date</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if orders %}
+                        {% for order in orders %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><img class="rounded-square" style="height:80px" src="{{order.product.image.url}}"></td>
+                            <td>{{order.product.name}}</td>
+                            <td>{{order.price|currency}}</td>
+                            <td>{{order.date}}</td>
+                            <td>{{order.quantity}}</td>
+                            <td>{{order.quantity|multiply:order.price|currency}}</td>
+                            {% if order.status %}
+                            <td> <small class="badge badge-success">Completed</small></td>
+                            {% else %}
+                            <td> <small class="badge badge-warning">Pending</small></td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+                <table>
+                        {% else %}
+                            <tr>
+                                <th colspan="6" class="text-center">You does not have any products in your shopping card</th>
+                            </tr>
+                        {% endif%}
+                </table>
+        </div>
+   </div>
+</section>
+<!--model create for check out-->
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load cart %}
+{% load custom_filter %}
+{% block content %}
+<section>
+   <div class="container mt-5 pt-5">
+        <div class="border rounded p-4 m-4 pt-4 mt-4">
+            <p class="display-4 pl-4 ml-4">Your Cart</p>
+            <hr>
+            <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>product</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if products %}
+                        {% for product in products %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><img class="rounded-square" style="height:80px" src="{{product.image.url}}"></td>
+                            <td>{{product.name}}</td>
+                            <td>{{product.price|currency}}</td>
+                            <td>{{product|cart_quantity:request.session.cart}}</td>
+                            <td>{{product|price_product:request.session.cart|currency}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4"></th>
+                            <th>Product Total:</th>
+                            <th>{{products|product_total_price:request.session.cart|currency}}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4"></th>
+                            <th>+18% GST tax</th>
+                            <th>{{products|gst_price:request.session.cart|currency}}</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4"></th>
+                            <th>Total</th>
+                            <th>{{products|total_price:request.session.cart|currency}}</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            <hr>
+                <div class="m-3 p-3">
+                    <a href="#" class="btn btn-success border rounded col-lg-3 float-right" data-toggle="modal" data-target="#exampleModal" >Check Out</a>
+                </div>
+            <table>
+                    {% else %}
+                        <tr>
+                            <th colspan="6" class="text-center">You Have not added any products to the cart</th>
+                        </tr>
+                    {% endif%}
+            </table>
+        </div>
+   </div>
+</section>
+<!--model create for check out-->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Check Out</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div>
+                <form action="/checkout" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" name="address" class="form-control" placeholder="Address line1">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" name="phonenumber"  class="form-control" placeholder="9856878956">
+                    </div>
+                    <input type="submit" value="Checkout" class="btn btn-success float-right">
+                </form>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

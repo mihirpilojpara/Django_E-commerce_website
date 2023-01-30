@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+    <section>
+        <div class="col-lg-6 mx-auto pt-5 mt-5">
+            <div class="login_form_inner">
+                <h3>Create An Account</h3>
+                <form class="row login_form" action="/signin" method="post" id="registrationForm">
+                    {% csrf_token %}
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{error}}
+                    </div>
+                    {% endif%}
+                    <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" value="{{values.first_name}}"  name="firstname" placeholder="First Name" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" value="{{values.last_name}}" name="lastname" placeholder="Last Name" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" value="{{values.phonenumber}}"  name="phonenumber" placeholder="9876549454" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="email" class="form-control" value="{{values.email}}" name="email" placeholder="EmailId" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="password" class="form-control" name="registerpassword" placeholder="Password">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="password" class="form-control" name="registerpassword2" placeholder="Re-Enter Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Re-Enter Password'">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <button type="submit" value="signin" class="primary-btn">Sign In</button>
+                    </div>
+                </form>
+            </div>
+		</div>
+    </section>
+{% endblock %}

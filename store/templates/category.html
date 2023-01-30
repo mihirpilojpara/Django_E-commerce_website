@@ -1,0 +1,86 @@
+{%extends 'base.html'%}
+{% load static%}
+{% load cart%}
+{% load custom_filter%}
+{% block content %}
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Shop By Brands</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="/category">Shop<span class="lnr lnr-arrow-right"></span></a>
+						<a href="/category">Fashon Category</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+	<!-- Adding Product filter	-->
+	<div class="container">
+		<div class="row">
+				<div class="col-xl-3 col-lg-4 col-md-5">
+					<div class="sidebar-filter mt-50">
+						<div class="top-filter-head">Product Filters</div>
+						<div class="common-filter">
+							<div class="head">Brands</div>
+							{% for category in categories%}
+								<form action="">
+									<ul>
+										<li class="filter-list"><input class="pixel-radio" type="radio" name="brand"><a href="?category={{ category.id}}"><label>{{category.name}}</label><span>({{category.stock}})</span></a></li>
+									</ul>
+								</form>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+	<!--end of filer-->
+	<div class="col-xl-9 col-lg-8 col-md-7 mt-5">
+				<!-- Start Best Seller -->
+				<section class="lattest-product-area pb-40 category-list">
+					<div class="row mt-3">
+					<!-- single product -->
+						{% for product in products %}
+						<div class="card mx-auto mb-3" id="{{product.id}}" style="width: 15rem;">
+							<img class="card-img-top" src="{{product.image.url}}">
+							<div class="card-body">
+								<p class="card-title">{{product.name}}</p>
+								<p class="card-text"><b>{{product.price|currency}}</b></p>
+								{{product | is_in_cart:request.session.cart}}
+							</div>
+							<div class="card-footer p-0">
+								{% if product|is_in_cart:request.session.cart %}
+								<div class="row  no-gutters">
+									<form action="" class="col-2" method="post">
+										{% csrf_token %}
+										<input hidden type="text" name="product" value="{{product.id}}">
+										<input hidden type="text" name="remove" value="True">
+										<input type="submit" value="-" class=" btn btn-block btn-info">
+									</form>
+									<div class="text-center col m-2">{{product|cart_quantity:request.session.cart}} in Cart</div>
+									<form action="" class="col-2" method="post">
+										{% csrf_token %}
+										<input hidden type="text" name="product" value="{{product.id}}">
+										<input type="submit" value="+" class=" btn btn-block btn-info">
+									</form>
+								</div>
+								{%else%}
+								<form action="" method="post" class="btn-block">
+									{% csrf_token %}
+									<input hidden type="text" name="product" value="{{product.id}}">
+									<button type="submit" class="btn btn-info btn-block ">Add to cart  <span class="ti-bag "></span></button>
+								</form>
+								{% endif %}
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</section>
+				<!-- End Best Seller -->
+			</div>
+		</div>
+	</div>
+{%endblock%}

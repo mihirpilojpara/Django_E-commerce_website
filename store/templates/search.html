@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+{% load static%}
+{% load cart%}
+{% load custom_filter%}
+{% block content %}
+<div class="container">
+    <div class="row m-5 p-5">
+        	{% for product in products %}
+              {% if 'Product' %}
+                        <table>
+                            <tr>
+                                <td><img class="rounded-square" style="height:80px" src="{{product.image.url}}"></td>
+                                <td>{{product.name}}</td>
+                                <td>{{product.description}}</td>
+                                <td>{{product.price|currency}}</td>
+                            </tr>
+                        </table>
+
+              {% else %}
+                     <table>
+                            <tr>
+                                <td><img class="rounded-square" style="height:80px" src="{{object.image.url}}"></td>
+                                <td>{{object.name}}</td>
+                                <td>{{object.description}}</td>
+                                <td>{{object.price|currency}}</td>
+                            </tr>
+                        </table>
+                {% endif %}
+
+            {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+
+{%endblock%}
