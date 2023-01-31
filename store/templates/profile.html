@@ -1,0 +1,36 @@
+{%extends 'base.html'%}
+{% load static%}
+{% block content %}
+    <section>
+        <div class="col-lg-6 mx-auto pt-5 mt-5">
+            <div class="login_form_inner">
+                <h3>User Profile View</h3>
+                {% for customer in customers %}
+                <form class="row login_form" action="/profile" method="" id="edituserprofile">
+                    {% csrf_token %}
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{error}}
+                    </div>
+                    {% endif%}
+                    <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" value="{{customer.first_name}}"  name="firstname" placeholder="First Name" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" value="{{customer.last_name}}" name="lastname" placeholder="Last Name" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="text" class="form-control" value="{{customer.phonenumber}}"  name="phonenumber" placeholder="9876549454" >
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <input type="email" class="form-control" value="{{customer.email}}" disabled>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <button type="submit" value="edituser" class="primary-btn">Edit Your Profile</button>
+                    </div>
+                </form>
+                {% endfor %}
+            </div>
+		</div>
+    </section>
+{%endblock%}
