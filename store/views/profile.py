@@ -7,7 +7,7 @@ class Profile(View):
     def get(self, request):
         customer = str(request.session.get('customer'))
         customer_profile = Customer.get_customer_id(customer)
-        return render(request, 'profile.html', {'customers' : customer_profile})
+        return render(request, 'userprofile.html', {'customers' : customer_profile})
 
     def post(self, request):
         postData = request.POST
@@ -26,7 +26,7 @@ class Profile(View):
             customers = str(request.session.get('customer'))
             customer_profile = Customer.get_customer_id(customers)
             customer.save()
-            return render(request, 'profile.html', {'customers': customer_profile})
+            return render(request, 'userprofile.html', {'customers': customer_profile})
         else:
 
             customer = str(request.session.get('customer'))
@@ -35,7 +35,7 @@ class Profile(View):
                 'error': error_message,
                 'customers': customer_profile
                      }
-            return render(request, 'profile.html', data)
+            return render(request, 'userprofile.html', data)
 
     def validateCustomer(self, customer):
         error_message = None

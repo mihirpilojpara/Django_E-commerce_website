@@ -63,7 +63,7 @@
 								</ul>
 							</li>
 								<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-								<li class="nav-item"><a class="nav-link" href="/profile">Profile</a></li>
+								<li class="nav-item {% if request.path == '/userprofile' %} active {% endif %}"><a class="nav-link" href="/userprofile">Profile</a></li>
 
 							{% else %}
 							<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>

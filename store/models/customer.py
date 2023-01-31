@@ -13,6 +13,13 @@ class Customer(models.Model):
     def register(self):
         self.save()
 
+
+
+    @staticmethod
+    def get_customer_id(id):
+        return Customer.objects.filter(id=id)
+
+
     @staticmethod
     def get_customer_name(first_name):
         return Customer.objects.get(username=first_name)
